@@ -30,7 +30,7 @@ The project studies two related objectives:
 - **Navigation:** train a PPO agent to reach distant goals in Manhattan without consulting an explicit metric map at inference time.
 - **Spatial cognition:** test whether auxiliary spatial supervision makes the recurrent latent state more geometrically meaningful and more useful for navigation.
 
-The experimental environment contains **55,761 Manhattan panoramas**, covers approximately **4.72 km²**, and includes routes averaging roughly **4 km**.
+The complete Manhattan StreetLearn source database contains **55,761 panoramas**. Experiments in this repository operate on selected subgraphs rather than using every panorama at once. The main `max` experimental scene contains **7,117 panorama nodes**, covers approximately **4.72 km²**, and supports navigation routes spanning several kilometres.
 
 > Here, *mapless* means that the policy does not receive an explicit metric map or a planned global route. Local street connectivity and landmark topology are still used to define feasible movement and goal context.
 
@@ -143,7 +143,9 @@ pip install numpy pandas scipy torch torchvision opencv-python \
 
 ### Data preparation
 
-The raw Manhattan StreetLearn database, pretrained checkpoints, and large feature caches are not included in this repository. Prepare the panorama database and generated cache directories locally, then pass their paths to the experiment entry point.
+The raw Google Street View panoramas, pretrained checkpoints, and large feature caches are not included in this repository. The data layout is based on [StreetLearn](https://github.com/google-deepmind/streetlearn); see the official [StreetLearn project page](https://sites.google.com/view/streetlearn/) for the research project and dataset-access status.
+
+The official project page currently states that the StreetLearn dataset is no longer distributed or maintained. Researchers must therefore contact Google or Google DeepMind to ask about research access, or prepare a compatible StreetLearn-format database from appropriately licensed imagery. After obtaining the data, generate the local cache directories and pass their paths to the experiment entry point.
 
 A typical command is:
 
@@ -167,13 +169,6 @@ This repository is built around questions that remain open beyond a single bench
 - Does explicitly supervising spatial relations improve policy efficiency?
 - Can a recurrent latent state behave like an implicit cognitive map at city scale?
 - Which forms of supervision improve direction awareness without leaking an explicit map to the policy?
-
-<details>
-<summary><strong>中文简介</strong></summary>
-
-RL-Mapless 研究城市尺度的无显式地图视觉导航。智能体基于街景全景图像和地标拓扑信息，通过 PPO 与 LSTM 学习在曼哈顿数公里范围内连续导航。项目进一步引入位置、目标方向和朝向等空间表征监督，讨论智能体的潜在特征空间能否形成类似“认知地图”的空间结构。实验展示结果表明，引入空间表征监督后，报告完成分数从 0.851 提升至 0.932，平均导航步数从 421.2 降至 370.8；进一步的表征探针显示，提升主要体现在方向与朝向认知，而不是绝对坐标定位。
-
-</details>
 
 ## License
 
